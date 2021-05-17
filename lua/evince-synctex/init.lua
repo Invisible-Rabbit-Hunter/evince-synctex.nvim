@@ -75,7 +75,7 @@ local function find_document(path, should_open)
   if file_exists(path) then
     local daemon = dbus.Proxy:new {
       bus = dbus.Bus.SESSION,
-      interface = 'org.gnome.evince.Daemon'
+      interface = 'org.gnome.evince.Daemon',
       name = 'org.gnome.evince.Daemon',
       path = '/org/gnome/evince/Daemon'
     }
