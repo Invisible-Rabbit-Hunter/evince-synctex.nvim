@@ -9,7 +9,6 @@ local timer = vim.loop.new_timer()
 local timer_running = false
 
 local function is_table_empty(t)
-  local next = next
   return next(t) == nil
 end
 
@@ -90,7 +89,7 @@ function _G.EvinceView(file_name, pdf_name)
   local win_name, err = find_document(pdf_name, true)
   if err ~= nil then
     print("Error:", err)
-    return
+    return nil, err
   end
 
   local function sync_callback(proxy, _, _, err)
@@ -98,6 +97,7 @@ function _G.EvinceView(file_name, pdf_name)
       vim.schedule(function ()
         print("Sync error:", err)
       end)
+    end
   end
 
   local window = get_window(win_name)
