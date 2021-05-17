@@ -76,5 +76,8 @@
         (schedule
           (let [pos (nvim.win_get_cursor 0)]
             (window:SyncViewAsync sync_view_cb {} file-name pos (os.time))))))))
+
 (defn setup []
   (vim.cmd "command EvinceView :lua _G.EvinceView(vim.fn.expand('%:p'), vim.fn.expand('%:p:r')..'.pdf')"))
+
+{: setup}

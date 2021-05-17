@@ -1,4 +1,4 @@
-local _2afile_2a = "fnl/evince-synctex/main.fnl"
+local _2afile_2a = "fnl/evince-synctex/init.fnl"
 local _0_0
 do
   local name_0_ = "evince-synctex.main"
@@ -199,4 +199,4 @@ do
   t_0_["setup"] = v_0_
   setup = v_0_
 end
-return nil
+return {setup = setup}
