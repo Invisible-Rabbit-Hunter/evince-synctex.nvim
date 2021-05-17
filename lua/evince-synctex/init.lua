@@ -103,7 +103,7 @@ function _G.EvinceView(file_name, pdf_name)
   local window = get_window(win_name)
   vim.schedule(function ()
     local pos = vim.api.nvim_win_get_cursor(0)
-    window:SyncViewAsync(sync_callback, {}, file_name, os.time())
+    window:SyncViewAsync(sync_callback, {}, file_name, pos, os.time())
   end)
 end
 
