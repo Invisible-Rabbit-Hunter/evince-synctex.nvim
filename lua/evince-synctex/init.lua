@@ -111,7 +111,7 @@ local export = {}
 
 function export.setup()
   vim.cmd[[
-  command! EvinceView :lua _G.EvinceView(vim.fn.expand("%p"), vim.fn.expand("%p:r")..'.pdf')
+  command! EvinceView :lua _G.EvinceView(vim.fn.expand("%:p"), vim.fn.expand("%:p:r")..'.pdf')
   ]]
 end
 
