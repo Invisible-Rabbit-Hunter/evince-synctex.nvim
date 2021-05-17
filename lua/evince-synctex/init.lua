@@ -1,4 +1,4 @@
-local dbus = require 'dbus'
+local dbus = require 'dbus_proxy'
 local lgi = require 'lgi'
 
 local main_loop = lgi.GLib.MainLoop()
