@@ -47,7 +47,7 @@ local function get_window(win_name)
       end
     end
 
-    local window = dbus.Prox:new {
+    local window = dbus.Proxy:new {
       bus = dbus.Bus.SESSION,
       interface = 'org.gnome.evince.Window',
       name = win_name,
