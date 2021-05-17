@@ -60,6 +60,7 @@ local function get_window(win_name)
     window:connect_signal(closed_callback, 'Closed')
     return window
   end
+end
 
 local function file_exists(path)
   local f = io.open(path, 'r')
