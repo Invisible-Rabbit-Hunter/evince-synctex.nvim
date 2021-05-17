@@ -183,20 +183,20 @@ _G.EvinceView = function(file_name, pdf_name)
     return vim.schedule(_3_)
   end
 end
-local init
+local setup
 do
   local v_0_
   do
     local v_0_0
-    local function init0()
+    local function setup0()
       return vim.cmd("command EvinceView :lua _G.EvinceView(vim.fn.expand('%:p'), vim.fn.expand('%:p:r')..'.pdf')")
     end
-    v_0_0 = init0
-    _0_0["init"] = v_0_0
+    v_0_0 = setup0
+    _0_0["setup"] = v_0_0
     v_0_ = v_0_0
   end
   local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["init"] = v_0_
-  init = v_0_
+  t_0_["setup"] = v_0_
+  setup = v_0_
 end
 return nil

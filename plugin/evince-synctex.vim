@@ -1,3 +1,3 @@
-if has("nvim")
-  lua require("evince-synctex.main").init()
-endif
+" if has("nvim")
+"   lua require("evince-synctex.main").init()
+" endif
