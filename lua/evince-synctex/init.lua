@@ -10,7 +10,7 @@ local timer_running = false
 
 local function is_table_empty(t)
   local next = next
-  return next(t) = nil
+  return next(t) == nil
 end
 
 local function keys(t)
