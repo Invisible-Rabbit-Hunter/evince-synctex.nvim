@@ -36,6 +36,7 @@ local function get_window(win_name)
           vim.api.nvim_command(':vsplit '..file)
         end
         vim.api.nvim_win_set_cursor(0, {pos[1], pos[2]+1})
+				vim.api.nvim_command('normal! zz')
       end)
     end
 
