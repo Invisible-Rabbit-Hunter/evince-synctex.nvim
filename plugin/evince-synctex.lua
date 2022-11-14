@@ -33,7 +33,7 @@ local function get_window(win_name)
       vim.schedule(function()
         local file = vim.uri_to_fname(file_uri)
         if vim.api.nvim_buf_get_name(0) ~= file then
-          vim.api.nvim_command(':vsplit '..file)
+          vim.api.nvim_command(':e '..file)
         end
         vim.api.nvim_win_set_cursor(0, {pos[1], pos[2]+1})
 				vim.api.nvim_command('normal! zz')
@@ -86,7 +86,7 @@ local function find_document(path, should_open)
   end
 end
 
-function _G.EvinceView(file_name, pdf_name)
+local function evince_view(file_name, pdf_name)
   local win_name, err = find_document(pdf_name, true)
   if err ~= nil then
     print("Error:", err)
@@ -108,12 +108,52 @@ function _G.EvinceView(file_name, pdf_name)
   end)
 end
 
-local export = {}
-
-function export.setup()
-  vim.cmd[[
-  command! EvinceView :lua _G.EvinceView(vim.fn.expand("%:p"), vim.fn.expand("%:p:r")..'.pdf')
-  ]]
+local function find_latexmkrc(start_dir)
+  local dir = start_dir
+  while vim.fn.file_readable(vim.fn.fnamemodify(dir, ":p").."/.latexmkrc") == 0 do
+    dir = dir:gsub("/[^/]+/?$", "")
+    if dir == "~" or dir == "" or dir == "/" then return nil, "no latexmkrc" end
+  end
+  
+  return vim.fn.fnamemodify(dir, ":p")
 end
 
-return export
+local function find_build_dir(latexmkrc_dir)
+  local file = io.open(latexmkrc_dir .. "/.latexmkrc")
+  for line in file:lines() do
+    local _, _, out_dir = line:find("%$out_dir = \'(.+)\';$")
+    if out_dir then
+      return latexmkrc_dir..out_dir
+    end
+  end
+end
+
+local function find_pdf()
+  local head, matched = vim.fn.getline(1):gsub("%%!TEX root = ", "")
+
+  local source_file
+  if matched == 0 then
+    source_file = vim.fn.expand("%:p")
+  else
+    source_file = vim.fn.fnamemodify(vim.fn.expand("%:h").."/"..head, ":p")
+  end
+  
+  local latexmkrc_dir = find_latexmkrc(vim.fn.expand("%:~:h")) 
+
+  local pdf_path
+  if latexmkrc_dir == nil then
+    pdf_path = vim.fn.fnamemodify(source_file, ":r") .. ".pdf"
+  else
+    local diff = source_file:sub(#latexmkrc_dir+1)
+    build_dir = find_build_dir(latexmkrc_dir)
+    pdf_path = vim.fn.fnamemodify(build_dir.."/" .. diff, ":r") .. ".pdf"
+  end
+
+
+  return pdf_path
+end
+
+vim.api.nvim_create_user_command('EvinceView', function(tbl)
+  evince_view(vim.fn.expand('%:p'), find_pdf())
+end, {})
+
