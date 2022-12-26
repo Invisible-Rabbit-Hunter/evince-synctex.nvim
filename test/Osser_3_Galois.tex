@@ -1,0 +1,312 @@
+\documentclass[a4paper, 11pt]{homework}
+
+\usepackage{common-defs/core}
+\usepackage{common-defs/algebra}
+\usepackage{common-defs/logic}
+\usepackage{amsthm}
+
+\DeclareMathOperator{\cf}{cf}
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\ord}{ord}
+\DeclarePairedDelimiter{\abs}{\vert}{\vert}
+\renewcommand{\phi}{\varphi}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\gen}[1]{{\providecommand{\given}{}\renewcommand{\given}{\;\vert\;}\langle#1\rangle}}
+\newcommand{\divides}{\mathrel{\vert}}
+\newcommand{\copi}{\rotatebox[origin=c]{180}{\pi}}
+\newtheorem{lemma}{Lemma}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\onto}{\twoheadrightarrow}
+
+\author{Jonathan Osser}
+\title{Homework 2}
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+	\question{} Let \(G = \Z/4\Z \times \Z/4\Z \times \Z/12\Z\). Describe explicitly a finite extension of \(\Q\)
+	having \(G\) as Galois group.
+
+	\begin{solution}
+		Corollary 14.22 of Dummit and Foote yields one way to find a field \(F\) extension whose Galois group is a
+		direct product of smaller groups; simply take \(F\) to be the composite of extensions whose pairwise
+		intersections are trivial. In this case we would want to have two	distinct fields with Galois group isomorphic
+		to \(\Z/4\Z\) such that their intersection is trivial, and one field whose Galois group is isomorphic to
+		\(\Z/12\Z\) which has trivial intersection with both other fields.
+
+		An obvious extension with Galois group \(\Z/4\Z\) is the cyclotomic field \(F_1 = \Q(\zeta_5)\) adjoining to
+		\(\Q\) a primitive fifth root of unity. By theorem 14.26 of Dummit and Foote the Galois group of the extension
+		is isomorphic to \((\Z/5\Z)^\times \cong \Z/4\Z\). The same result gives us an extension with Galois group
+		\(\Z/12\Z\), namely \(F_2 = \Q(\zeta_{13})\).
+
+		Finally we use problem 6 of this homework as a hint that \(F_3 = \Q(\sqrt{2+\sqrt{2}})\) has Galois group
+		isomorphic to \(\Z/4\Z\), which we will show holds true in that problem.
+
+		Finally we need to show that the intersection of any two of these extensions is trivial. Since both It suffices
+		to prove that there is no subfield of degree \(2\) which lies in the intersection of any pair of \(F_1,F_2,F_3
+		\). Note that there is only one non-trivial subgroup of \(\Z/4\Z\), so by the fundamental theorem of Galois
+		Theory, there is only one non-trivial subfield of \(F_1,F_3\) each, both of degree two. However, \(F_3/\Q(
+		\sqrt2)\) and \(F_1/\Q(\sqrt5)\), but \(\Q(\sqrt2) \ne \Q(\sqrt5)\), so \(F_1 \cap F_3 = \emptyset\). For
+		\(F_2\), notice that \(\Gal(F_2/\Q) = \Z/12\Z\), which has only one unique subgroup of index \(2\), namely
+		the one of order \(6\). This subgroup the corresponds to the subfield \(\Q(\sqrt{13})\), which is neither
+		\(\Q(\sqrt2)\) nor \(\Q(\sqrt5)\). Hence the pairwise intersection of the fields \(F_1,F_2,F_3\) is trivial.
+		Thus their composite \(F = F_1F_2F_3\) has Galois group \(G\).
+	\end{solution}
+
+	\question{} Suppose \(m\) is a positive integer and \(2^m+1\) is prime. Show that \(m\) itself must be a power
+	of \(2\).
+	\begin{solution}
+    Notice that for \(m = 2k+1\) odd we have
+		\begin{align*}
+			x^m + 1 & = x^{2k+1} + 1                             \\
+			        & = x^{2k+1} - x^{2k} + x^{2k} \dots - x + 1 \\
+              & = (x^{2k+1} - x^{2k} + \dots - x^2 + x) + (x^{2k} - x^{2k-1} + \dots - x + 1) \\
+              & = (x+1)(x^{2k} - x^{2k-1} + \dots - x + 1).
+		\end{align*}
+    So \(m\) cannot be odd, as then \(2^m+1 = (2+1)(\dots)\) would have a non-trivial a factorisation of \(2^m+1\),
+    which contradicts that \(2^m+1\) is prime. In fact, if \(m\) has some non-two factor, i.e. \(m = 2^kn\) for
+    \(n\) odd, then
+    \[2^m+1 = 2^{2^kn} + 1 = \left(2^{2^k}\right)^n + 1\]
+    has a non-trivial factorisation \((2^{2^k}+1)(\dots)\) from the above, which contradicts so \(2^m+1\) being
+    prime. Hence \(m\) cannot have a non-two factor, so \(m = 2^k\) for some \(k\).
+  \end{solution}
+
+	\question{} Assume that \(m\) is a positive integer, that \(p\) is prime and that \(p\) divides the Fermat
+	number \(2^{2^m}+1\). Show that \(p \equiv 1\pmod{2^{m+1}}\).
+	\begin{solution}
+    Note that \(\Phi_{2^{m+1}}(x) = x^{2^m} + 1\) for \(m \ge 1\).  Since \(p\) divides \(2^{2^m}+1 = \Phi_{2^
+    {m+1 }}\) we have that \(\Phi_{2^{m+1}}(2) = 1 \in \F_p\), so \(2\) has order \(2^{m+1}\) in \(\F_p^\times\).
+    Hence \(2^{m+1}\) divides \(p-1\), which means \(p \equiv 1 \pmod (2^{m+1})\).
+	\end{solution}
+
+  \newpage
+	\question{} Let \(K\) be a field. Given \(\alpha_1,\dots,\alpha_n \in K\) with \(n \ge 2\), the
+	\textit{Vandermonde determinant} of \(\alpha_1,\dots,\alpha_n\) is
+	\[
+		V(\alpha_1,\dots,\alpha_n) = \det\begin{pmatrix}
+			1      & \alpha_1 & \alpha_1^2 & \cdots & \alpha_1^{n-1} \\
+			1      & \alpha_2 & \alpha_2^2 & \cdots & \alpha_2^{n-1} \\
+			\vdots & \vdots   & \vdots     & \ddots & \vdots         \\
+			1      & \alpha_n & \alpha_n^2 & \cdots & \alpha_n^{n-1}
+		\end{pmatrix}.
+	\]
+	Show that the Vandermonde determinant satisfies \textit{Vandermonde's Identity}:
+	\[
+		V(\alpha_1,\dots,\alpha_n) = \prod_{j < i}(\alpha_i - \alpha_j).
+	\]
+	\begin{solution}
+		We prove this by induction on \(n\).
+
+		In the base case, when \(n = 2\), we have
+		\[
+			V(\alpha_1, \alpha_2) = \det\begin{pmatrix}
+				1 & \alpha_1 \\
+				1 & \alpha_2
+			\end{pmatrix} = (1 - \alpha_2)(1 - \alpha_1) = \alpha_2 - \alpha_1,
+		\]
+		so we are done.
+
+		For the inductive case, assume that for \(k \ge 2\) and any \(\beta_1,\dots,
+		\beta_k\) we have \(V(\beta_1,\dots,\beta_k) = \prod_{j < i} (\beta_i - \beta_k)\), i.e. that the identity
+		holds for \(n = k\). We need to show it holds for \(n = k + 1\) also. Let \(\alpha_1,\dots,\alpha_{k+1}\)
+		be given. Then we can subtract the previous column times \(\alpha_1\) from each but the first column, which
+		computes as follows:
+		\begin{align*}
+			V(\alpha_1,\dots,\alpha_{k+1})
+			 & = \det\begin{pmatrix}
+				1      & \alpha_1     & \alpha_1^2     & \cdots & \alpha_1^k     \\
+				1      & \alpha_2     & \alpha_2^2     & \cdots & \alpha_2^k     \\
+				\vdots & \vdots       & \vdots         & \ddots & \vdots         \\
+				1      & \alpha_{k+1} & \alpha_{k+1}^2 & \cdots & \alpha_{k+1}^k
+			\end{pmatrix} \\
+			 & = \det\begin{pmatrix}
+				1      & 0                       & 0                                     & \cdots & 0                \\
+				1      & \alpha_2 - \alpha_1     & \alpha_2^2 - \alpha_2\alpha_1         & \cdots & \alpha_2^k -
+				\alpha_2^{k-1}\alpha_1                                                                               \\
+				\vdots & \vdots                  & \vdots                                & \ddots & \vdots           \\
+				1      & \alpha_{k+1} - \alpha_1 & \alpha_{k+1}^2 - \alpha_{k+1}\alpha_1 & \cdots & \alpha_{k+1}^k -
+				\alpha_{k+1}^k \alpha_1^k
+			\end{pmatrix} \\
+			 & = \det\begin{pmatrix}
+				1      & 0                       & 0                                     & \cdots & 0                   \\
+				1      & \alpha_2 - \alpha_1     & \alpha_2(\alpha_2 - \alpha_1)         & \cdots & \alpha_2^{k-1}
+				(\alpha_2 -	\alpha_1)                                                                                    \\
+				\vdots & \vdots                  & \vdots                                & \ddots & \vdots              \\
+				1      & \alpha_{k+1} - \alpha_1 & \alpha_{k+1}(\alpha_{k+1} - \alpha_1) & \cdots & \alpha_{k+1}^{k-1}(
+				(\alpha_{k+1} - \alpha_1)                                                                               \\
+			\end{pmatrix} \\
+			 & = \det\begin{pmatrix}
+				\alpha_2 - \alpha_1     & \alpha_2(\alpha_2 - \alpha_1)         & \cdots & \alpha_2^{k-1}
+				(\alpha_2 - \alpha_1)                                                                          \\
+				\vdots                  & \vdots                                & \ddots & \vdots              \\
+				\alpha_{k+1} - \alpha_1 & \alpha_{k+1}(\alpha_{k+1} - \alpha_1) & \cdots & \alpha_{k+1}^{k-1}(
+				(\alpha_{k+1} - \alpha_1)                                                                      \\
+			\end{pmatrix} \\
+			 & =
+			\left(\prod_{2 \le i} (\alpha_i - \alpha_1)\right) \det\begin{pmatrix}
+				1      & \alpha_2 + f_2(\alpha_2)         & \cdots & \alpha_2^{k-1} + f_k(\alpha_2)         \\
+				\vdots & \vdots                           & \ddots & \vdots                                 \\
+				1      & \alpha_{k+1} - f_2(\alpha_{k+1}) & \cdots & \alpha_{k+1}^{k-1} + f_k(\alpha_{k+1})
+			\end{pmatrix}.
+		\end{align*}
+		The latter determinant is \(\prod_{2 \le j < i} (\alpha_i - \alpha_j)\) by the inductive hypothesis,
+		so combined with the factor in front we have
+		\[
+			V(\alpha_1,\dots,\alpha_{k+1}) = \left(\prod_{2\le i}(\alpha_i - \alpha_1)\right)\left
+			(\prod_{2 \le j < i} (\alpha_i - \alpha_j)\right) = \prod_{j < i}(\alpha_i - \alpha_j),
+		\]
+		which is what we aimed to prove.
+		Hence we conclude by induction that the statement holds for all \(n \ge 2\).
+	\end{solution}
+
+
+	\question{} Let \(K = \Q(\sqrt[8]{2},i)/\Q\). Consider its subfields \(F_1 = \Q(i)\), \(F_2 = \Q(\sqrt2)\), and
+	\(F_3 = \Q(\sqrt{-2})\). Show that \(\Gal(K/F_1) \cong \Z/8\Z\), that \(\Gal(K/F_2)\) is dihedral of order 8, and
+	that \(\Gal(K/F_3)\) is isomorphic to the quaternion group of order \(8\).
+	\begin{solution}
+
+		Let \(\theta = \sqrt[8]{2}\) and \(\zeta\) be a primite 8th root of unity, as in the example on page 577 of
+		Dummit and Foote. Then we have from said example that
+		\[\Gal(K/\Q) = \gen{\sigma,\tau \given \sigma^8 = \tau^2 = 1, \sigma\tau = \tau\sigma^3},\]
+		where
+		\[
+			\sigma : \begin{cases}
+				\theta \mapsto \zeta\theta \\
+				i \mapsto i
+			\end{cases}
+			\text{\quad and \quad}
+			\tau : \begin{cases}
+				\theta \mapsto \theta \\
+				i \mapsto -i.
+			\end{cases}
+		\]
+		This group has order 16. The order of each of the Galois groups \(\Gal(K/F_i), 1 \le i \le 3\) is 8,
+		since the index of each subgroup in \(\Gal(K/\Q)\) is 2, which follows from the fact that each field is a
+		quadratric extension of \(\Q\), and thus of degree 2.
+
+		Clearly the maps which fix \(i\) are precisely the powers of \(\sigma\), so from this we conclude \(\Gal(K/
+		F_1) = \gen{\sigma}\), and since \(\sigma\) has order 8, we have \(\gen{\sigma} \cong \Z/8\Z\) by definition.
+		Hence \(\Gal(K/F_1) \cong \Z/8\Z\).
+
+		Similarly, the maps which fix \(\sqrt 2 = \theta^4\) are \(\tau\), as well as not \(\sigma\), since
+		\(\sigma(\theta^4) = \sigma(\theta)^4 = (\zeta\theta)^4 = -\theta^4\), but rather the powers of \(\sigma^2\):
+		\[
+			\sigma^2(\theta^4) = \sigma(\sigma(\theta^4)) = \sigma(-\theta^4) = -\sigma(\theta^4) = \theta^4.
+		\]
+		Clearly \(\tau \in \Gal(K/F_2)\). Note that \(\gen{\sigma^2,\tau}\) has order \(8\) and is a subgroup of
+		\(\Gal(K/F_2)\), so \(\Gal(K/F_2) = \gen{\sigma^2,\tau}\). This group satisfies the equation \(\sigma^2\tau =
+		\sigma\tau\sigma^3 = \tau\sigma^6 = \tau\sigma^{-2}\), i.e. is dihedreal. Thus \(\Gal(K/F_2)\) is dihedral of
+		order 8.
+
+		Finally we wish to find the automorphisms which fix \(\sqrt{-2} = \sqrt2 i = \theta^4 i\). Note that
+		\(\sigma^2(\theta^4i) = \theta^4i\) and \(\sigma\tau(\theta^4i) = \sigma\tau(\theta^4)\sigma\tau(i) =
+		(-\theta^4)(-i) = \theta^4i\), so \[\sigma^2, \sigma\tau \in \Gal(K/F_3).\] Furthermore any product of
+		those are in \(\Gal(K/F_3)\), so \(\gen{\sigma^2, \sigma\tau} \le \Gal(K/F_3)\). Note that
+		\[
+			\gen{\sigma^2,\sigma\tau} = \Set{1, \sigma^2, \sigma^4, \sigma^6, \sigma\tau, \sigma^3\tau, \sigma^5\tau
+				\sigma^7\tau}
+		\]
+		has order 8. Hence \(\Gal(K/F_3) = \gen{\sigma^2, \sigma\tau}\). This group has at least three elements whose
+		square is \(\sigma^4\),  namely \(\sigma^2\), \(\sigma\tau\), \(\tau\sigma\):
+		\begin{align*}
+			(\sigma^2)^2   & = \sigma^4                                                 \\
+			(\sigma\tau)^2 & = \sigma\tau\sigma\tau = \sigma\tau\tau\sigma^3 = \sigma^4 \\
+			(\tau\sigma)^2 & = \tau\sigma\tau\sigma = \tau\tau\sigma^4 = \sigma^4.
+		\end{align*}
+		Since the group is non-abelian (\(\tau\sigma \sigma^2 = \tau\sigma^3 = \sigma\tau \ne \sigma^2 \sigma\tau\))
+		and has more than one element of order 4, it cannot be the dihedral group, and so must be the quaternion group.
+	\end{solution}
+
+	\question{} Show that \(\Q(\sqrt{2+\sqrt2})/\Q\) is Galois with Galois group \(\Z/4\Z\).
+	\begin{solution}
+		The minimal polynomial for \(\alpha = \sqrt{2+\sqrt2}\) is \(m_\alpha = x^4-4x^2+2\), whose other roots are
+		\(\beta = \sqrt{2 - \sqrt2}\), \(-\alpha,\) and \(-\beta\), or rather, the roots of \(m_\alpha\) are \(\Set{
+			\pm\alpha,\pm\beta}\). By computation we can show that \(\beta = \frac{\sqrt2}\alpha\), since
+		\[
+			\alpha\beta = \sqrt{(2+\sqrt2)(2-\sqrt2)} = \sqrt2 = \alpha^2 - 2 = 2 - \alpha^2,
+		\]
+		so \(\beta = \frac{\alpha\beta}{\alpha} = \frac{\alpha^2-2}{\alpha}\) and \(\alpha = \frac{2-\beta^2}{\beta}\).
+
+		The minimal polynomial is irreducible over \(\Q\), so the Galois group acts transitively on the roots. So
+		we prove by cases that there Galois groups is isomorphic to \(\Z/4\Z\):
+		\begin{itemize}
+			\item If \(\sigma(\alpha) = \alpha\), then \(\sigma(\beta) = \frac{\sigma(\alpha)^2-2}{\sigma(\alpha)}
+			      = \beta\), so \(\sigma\) fixes the whole extension, i.e. \(\sigma\) is the identity map.
+			\item If \(\sigma(\alpha) = \beta\), then \(
+			      \sigma(\beta) = \frac{\sigma(\alpha)^2-2}{\sigma(\alpha)}
+			      = \frac{\beta^2-2}{\beta} = -\alpha\).
+			\item If \(\sigma(\alpha) = -\alpha\), then \(
+			      \sigma(\beta) = \frac{\sigma(\alpha)^2-2}{\sigma(\alpha)}
+			      = \frac{\alpha^2-2}{-\alpha} = -\beta\).
+			\item If \(\sigma(\alpha) = -\beta\), then \(
+			      \sigma(\beta) = \frac{\sigma(\alpha)^2-2}{\sigma(\alpha}
+			      = \frac{\beta^2 - 2}{-\beta} = \alpha\).
+		\end{itemize}
+		Since any permutation is uniquely determined by where it sends \(\alpha\), the order of the Galois group
+		must be 4, and furthermore any automorphism is determined by the automorphism which satisifies \(\sigma(
+		\alpha) = \beta\): \(\sigma^2(\alpha) = -\alpha\), \(\sigma^3(\alpha) = -\beta\), and \(\sigma^4(\alpha) =
+		\alpha\), so \(\sigma^4 = \id\), whence \(\Gal(\Q(\alpha)/\Q) = \Set{\id, \sigma, \sigma^2, \sigma^3}\).
+	\end{solution}
+
+	\question{} Let \(p_1,\dots,p_n\) be \(n\) distinct primes. Show that \(\Q(\sqrt{p_1},\dots,\sqrt{p_n})/\Q\) is
+	Galois with Galois group isomorphic to \((\Z/2\Z)^n\).
+	\begin{solution}
+		Clearly \(\Q(\sqrt{p_1},\dots,\sqrt{p_n})\) is the least field extension over \(\Q\) for which the polynomial
+		\(f(x) = \prod_{k=1}^n (x^2-p_k)\) splits completely, and each factor is an irreducible polynomial of degree
+		2. Hence no factor has a multiple root (Corollary 13.34 of Dummit and Foote), so \(f\) is separable. The
+		Galois group of each factor is \(\Z/2\Z\), so the Galois group of \(f\) is \((\Z/2\Z)^n\). Therefore
+		\(\Gal(\Q(\sqrt{p_1}\dots,\sqrt{p_n})/\Q) = (\Z/2\Z)^n\).
+	\end{solution}
+
+	\question{} Determine the Galois group of \(x^5 + x - 1\).
+	\begin{solution}
+		We factor the polynomial \(x^5 + x - 1 = (x^2 - x + 1)(x^3 + x^2 - 1)\). Clearly the quadratic factor \(p(x)\)
+		is irreducible: it only has complex roots \(x = \frac{1}{2} \pm \frac{\sqrt{-3}}{2}\). Similarly the cubic
+		\(q(x)\) is also irreducible. The discriminant of \(q(x)\) is \(-23\), which is not square in \(\Q\), so the
+		Galois group of \(q(x)\) is \(S_3\). Similarly the Galois group of \(p(x)\) is \(S_2 \cong \Z/2\Z\). So the
+		Galois group of \(x^5 + x - 1\) is \(\Gal(E_pE_q/\Q)\), where \(E_p, E_q\) are the splitting field of \(p(x)\)
+		and \(q(x)\) respectively. Note that \(E_p = \Q(\sqrt{-3})\) and \(\Q(\sqrt{-23}) \subset E_q\). Furthermore
+		\(E_q\) has precisely one quadratic subfield, the fixed field of \(A_3\), since \(A_3\) is the only subgroup
+		of \(S_3\) with index 2. So if \(E_p\) and \(E_q\) had non-trivial intersection, then \(E_p \subseteq E_q\),
+		so \(\Q(\sqrt{-3}) = E_p = \Q(\sqrt{-23})\), which is obviously false. Hence \(E_p \cap E_q = \Q\), from which
+		follows that
+		\[\Gal(E_pE_q/\Q) = \Gal(E_p/\Q) \times \Gal(E_q/\Q) = S_3 \times \Z/2\Z,\]
+		which is thus the Galois field of the polynomial \(x^5 - x + 1\) over \(\Q\).
+	\end{solution}
+
+	\question{} Let \(p\) be a prime. Assume that \(x^5 + ax + b \in \F_p[x]\) is irreducible over \(\F_p\). Show
+	that \(5^5b^4 + 4^4a^5\) is a square in \(\F_p^\times\).
+	\begin{solution}
+		Since \(x^5 + ax + b\) is irreducible, its splitting field is of degree 5 over \(\F_p\). Hence its Galois
+		group is some cyclic subgroup \(C_5\) of \(S_5\) consisting of \(5\)-cycles and identity. Since every element
+		in \(\C_5\) is either identity or a 5-cycle, all elements are even, so \(C_5 \le A_5\). Hence it follows from
+		proposition 34 that the discriminant is a square in \(F\). But the discriminant is \(5^5b^4+4^4a^5\), so
+		\(5^5b^4 + 4^4a^5 \in \F_p\) is square. Furthermore the discriminant is zero precisely if there are multiple
+		roots, but its irreducible and thus seperable. Hence \(5^5b^4 + 4^4a^5\) is non-zero, so its in \(\F_p^\times
+		\).
+	\end{solution}
+
+	\question{} Let \(p\) be a prime. Show that the extension \(\F_p(x,y)/\F_p(x^p,y^p)\) does not admit a primitive
+	element.
+	\begin{solution}
+		Let \(F = \F_p(x^p,y^p)\). Then we have a family of extensions \(F(x+y^{kp+1})\), which are obviously subfields
+		of \(\F_p(x,y)\) and each are of degree \(p\). Furthermore no two fields in this family of different values
+		\(k\) are equal. For \(n \ne m\), if \(F(x+y^{np+1}) = F(x+y^{mp+1})\), then
+		\[(x+y^{np+1}) - (x + y^{mp+1}) = y^{np+1} - y^{mp+1} = y(y^{np} - y^{mp}),\]
+		but \(y^{np} - y^{mp} \ne 0\), so \(y \in F(x+y^{np+1})\), from which follows that \(x \in F(x+y^{np+1})\), so
+		then \(F(x+y^{np+1}) = \F_p(x,y)\). However, by each field in the family is of degree \(p\), since
+		\((x+y^{kp+1})^p = x^p+y^{kp^2+p} \in \F_p(x^p,y^p\), whereas \(\F_p(x,y)\) is of degree \(p^2\) over
+		\(\F_p(x^p, y^p)\). Hence all \(F(x+y^{kp+1}\) are distinct, and there are infinitely many, so by proposition
+		14.24 of Dummit and Foote it follows that \(K\) is not a simple extension, so it admits no primitive element.
+	\end{solution}
+\end{questions}
+
+\end{document}
